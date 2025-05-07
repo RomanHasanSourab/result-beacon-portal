@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { uploadResults } from '@/services/resultService';
-import { FileText, Upload, X } from 'lucide-react';
+import { FileText, Upload, X, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Progress } from '@/components/ui/progress';
 import { useNavigate } from 'react-router-dom';
@@ -80,24 +80,33 @@ export default function UploadResults() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto my-8">
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Upload Results</h1>
+    <div className="max-w-3xl mx-auto my-8">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold tracking-tight">Upload Results</h1>
+        <Button variant="outline" size="sm" onClick={() => navigate('/admin')} className="flex items-center gap-2">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Dashboard
+        </Button>
+      </div>
       
-      <Card>
+      <Card className="border-none card-shadow overflow-hidden">
+        <div className="h-2 gradient-primary"></div>
         <CardHeader>
           <CardTitle>Upload PDF Results</CardTitle>
           <CardDescription>
-            Upload PDF files containing student results. The system will automatically parse and extract individual student results.
+            Upload PDF files containing student results. The system will automatically extract and process individual student results.
           </CardDescription>
         </CardHeader>
         <CardContent>
           {!file ? (
-            <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-12 text-center">
-              <FileText className="h-10 w-10 mb-4 text-muted-foreground" />
+            <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-12 text-center bg-slate-50 dark:bg-slate-800/30">
+              <div className="h-16 w-16 rounded-full gradient-card p-4 mb-4 flex items-center justify-center">
+                <FileText className="h-8 w-8 text-accent" />
+              </div>
               <h3 className="font-semibold mb-1">Upload Result PDF</h3>
-              <p className="text-sm text-muted-foreground mb-4">Drag & drop your results PDF file here, or click to browse</p>
+              <p className="text-sm text-muted-foreground mb-6">Drag & drop your results PDF file here, or click to browse</p>
               <Label htmlFor="file-upload" className="cursor-pointer">
-                <div className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                <div className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 gradient-primary text-white hover:opacity-90 h-10 px-6 py-2">
                   <Upload className="mr-2 h-4 w-4" /> Select File
                 </div>
                 <Input id="file-upload" type="file" accept=".pdf" className="sr-only" onChange={handleFileSelect} />
@@ -105,9 +114,11 @@ export default function UploadResults() {
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex items-center justify-between p-4 border rounded-md bg-secondary/50">
+              <div className="flex items-center justify-between p-5 rounded-lg gradient-card">
                 <div className="flex items-center">
-                  <FileText className="h-10 w-10 mr-4 text-primary" />
+                  <div className="h-12 w-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-4">
+                    <FileText className="h-6 w-6 text-primary" />
+                  </div>
                   <div>
                     <p className="font-medium">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
@@ -121,24 +132,25 @@ export default function UploadResults() {
               </div>
               
               {isUploading && (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span>Uploading...</span>
-                    <span>{uploadProgress}%</span>
+                    <span className="font-medium">Uploading & Processing...</span>
+                    <span className="text-primary font-medium">{uploadProgress}%</span>
                   </div>
-                  <Progress value={uploadProgress} />
+                  <Progress value={uploadProgress} className="h-2" />
                 </div>
               )}
             </div>
           )}
         </CardContent>
-        <CardFooter className="flex justify-between">
+        <CardFooter className="flex justify-between border-t bg-slate-50/50 dark:bg-slate-800/10 py-4">
           <Button variant="outline" onClick={() => navigate('/admin')}>
             Cancel
           </Button>
           <Button 
             onClick={handleUpload} 
             disabled={!file || isUploading}
+            className={isUploading ? "bg-blue-500" : "gradient-primary"}
           >
             {isUploading ? "Processing..." : "Upload & Process Results"}
           </Button>
