@@ -30,7 +30,7 @@ export default function Layout({ children }: LayoutProps) {
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton active={location.pathname === '/admin'} asChild>
+                      <SidebarMenuButton isActive={location.pathname === '/admin'} asChild>
                         <Link to="/admin">
                           <FileText />
                           <span>Dashboard</span>
@@ -38,7 +38,7 @@ export default function Layout({ children }: LayoutProps) {
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton active={location.pathname === '/admin/upload'} asChild>
+                      <SidebarMenuButton isActive={location.pathname === '/admin/upload'} asChild>
                         <Link to="/admin/upload">
                           <Upload />
                           <span>Upload Results</span>
