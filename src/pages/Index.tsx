@@ -1,7 +1,8 @@
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import { FileText, Search, LogIn, ArrowRight } from "lucide-react";
+import { FileText, Search, LogIn, ArrowRight, User } from "lucide-react";
 
 export default function Index() {
   const navigate = useNavigate();

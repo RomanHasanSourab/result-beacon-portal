@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { searchResults, Result } from '@/services/resultService';
+import { Result, searchResults as fetchResults } from '@/services/resultService';
 import { FileText, Search, User, BookOpen, Calendar, Award } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
@@ -35,15 +35,15 @@ export default function StudentSearch() {
     setHasSearched(true);
     
     try {
-      const searchResults = await searchResults({
+      const searchData = await fetchResults({
         studentId,
         examName,
         semester
       });
       
-      setResults(searchResults);
+      setResults(searchData);
       
-      if (searchResults.length === 0) {
+      if (searchData.length === 0) {
         toast({
           variant: "default",
           title: "No Results Found",
