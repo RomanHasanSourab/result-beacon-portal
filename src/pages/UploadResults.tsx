@@ -38,14 +38,15 @@ export default function UploadResults() {
     if (!file) return;
     
     setIsUploading(true);
+    setUploadProgress(10);
     
-    // Simulate upload progress
+    // Create progress simulation
     const interval = setInterval(() => {
       setUploadProgress(prev => {
-        const newProgress = prev + 10;
+        const newProgress = prev + Math.floor(Math.random() * 5) + 1;
         return newProgress > 90 ? 90 : newProgress;
       });
-    }, 300);
+    }, 500);
     
     try {
       const result = await uploadResults(file);
@@ -60,6 +61,12 @@ export default function UploadResults() {
             description: `Successfully processed ${result.count} student results.`,
           });
           navigate('/admin');
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Processing Failed",
+            description: "There was a problem extracting data from the PDF. Please check the format and try again.",
+          });
         }
       }, 500);
     } catch (error) {
