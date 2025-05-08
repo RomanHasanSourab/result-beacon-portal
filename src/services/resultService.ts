@@ -1,9 +1,19 @@
-
 import { createClient } from '@supabase/supabase-js';
 
+// Get Supabase URL and anon key from environment variables
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+// Check if Supabase credentials are available
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Supabase URL or anon key is missing. Please check your .env file.');
+}
+
+// Create Supabase client with fallback to empty strings to prevent immediate crashes
+// This allows the app to at least load, even if Supabase operations will fail
 const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
+  supabaseUrl || '',
+  supabaseAnonKey || ''
 );
 
 export interface Result {
